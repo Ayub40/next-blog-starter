@@ -1,0 +1,25 @@
+Website e ki ki Thakbe ===>
+User ==>
+     -- id
+     -- name
+     -- email
+     -- password
+     -- role (admin, super admin, user)
+     -- phone
+     -- picture ?
+     -- status (active, inactive, block)
+     -- isVerified
+     -- createdAt
+     -- updatedAt
+
+Post ==>
+    -- id
+    -- title
+    -- content
+    -- thumbnail
+    -- isFeatured
+    -- tags []
+    -- view
+    -- authorId
+    -- createdAt
+    -- updatedAt
