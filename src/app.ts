@@ -18,7 +18,7 @@ app.use(
 
 // Default route for testing
 app.get("/", (_req, res) => {
-  res.send("API is running");
+  res.send("API is running!!!");
 });
 
 
