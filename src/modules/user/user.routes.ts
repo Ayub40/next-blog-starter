@@ -3,6 +3,11 @@ import { UserController } from './user.contoller';
 
 const router = express.Router();
 
+router.get(
+    "/",
+    UserController.getAllFormDB
+)
+
 router.post(
     "/",
     UserController.createUser
