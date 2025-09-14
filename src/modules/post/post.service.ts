@@ -19,6 +19,36 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
     return result;
 }
 
+const getAllPost = async () => {
+    const result = await prisma.post.findMany({
+        select: {
+            id: true,
+            title: true,
+            content: true,
+            thumbnail: true,
+            isFeatured: true,
+            tags: true,
+            views: true,
+            authorId: true,
+            // author: true,
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            },
+            createdAt: true,
+            updatedAt: true
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    });
+    return result;
+}
+
 export const PostService = {
-    createPost
+    createPost,
+    getAllPost
 }

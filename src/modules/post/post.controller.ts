@@ -10,6 +10,17 @@ const createPost = async (req: Request, res: Response) => {
     }
 }
 
-export const PostController = {
-    createPost
+const getAllPost = async (req: Request, res: Response) => {
+    try {
+        const result = await PostService.getAllPost()
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }
+
+export const PostController = {
+    createPost,
+    getAllPost
+}
+
