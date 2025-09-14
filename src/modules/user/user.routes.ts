@@ -23,5 +23,10 @@ router.patch(
     UserController.updateUser
 )
 
+router.delete(
+    "/:id",
+    UserController.deleteUser
+)
+
 
 export const userRouter = router;
