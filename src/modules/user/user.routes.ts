@@ -18,5 +18,10 @@ router.post(
     UserController.createUser
 )
 
+router.patch(
+    "/:id",
+    UserController.updateUser
+)
+
 
 export const userRouter = router;
