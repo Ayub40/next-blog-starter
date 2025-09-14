@@ -19,8 +19,18 @@ const getAllPost = async (req: Request, res: Response) => {
     }
 }
 
+const getPostById = async (req: Request, res: Response) => {
+    try {
+        const result = await PostService.getPostById(Number(req.params.id))
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
 export const PostController = {
     createPost,
-    getAllPost
+    getAllPost,
+    getPostById
 }
 

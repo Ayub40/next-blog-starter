@@ -42,13 +42,42 @@ const getAllPost = async () => {
             updatedAt: true
         },
         orderBy: {
-            createdAt: "desc"
+            createdAt: "asc"
         }
     });
     return result;
 }
 
+const getPostById = async (id: number) => {
+    const result = await prisma.post.findUnique({
+        where: {
+            id
+        },
+        select: {
+            id: true,
+            title: true,
+            content: true,
+            thumbnail: true,
+            isFeatured: true,
+            tags: true,
+            views: true,
+            authorId: true,
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            },
+            createdAt: true,
+            updatedAt: true,
+        }
+    })
+    return result;
+}
+
 export const PostService = {
     createPost,
-    getAllPost
+    getAllPost,
+    getPostById
 }
