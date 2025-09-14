@@ -3,25 +3,14 @@ import { PostController } from './post.controller';
 
 const router = express.Router();
 
-// get all posts
-router.get(
-    "/",
-    PostController.getAllPost
-)
 
-router.get(
-    "/:id",
-    // UserController.getUserById
-    PostController.getPostById
-)
-
-router.post(
-    "/",
-    PostController.createPost
-)
+router.get("/", PostController.getAllPost)
+router.get("/:id", PostController.getPostById)
+router.post("/", PostController.createPost)
+router.patch("/:id", PostController.updatePost);
+router.delete("/:id", PostController.deletePost);
 
 
-// get single post
 // update post
 // delete post
 
