@@ -31,10 +31,32 @@ const getAllFormDB = async () => {
     return result;
 }
 
+const getUserById = async (id: number) => {
+    const result = await prisma.user.findUnique({
+        where: {
+            id
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            phone: true,
+            picture: true,
+            createdAt: true,
+            updatedAt: true,
+            status: true,
+            posts: true
+        }
+    })
+    return result;
+}
+
 
 export const UserService = {
     createUser,
-    getAllFormDB
+    getAllFormDB,
+    getUserById
 }
 
 

@@ -8,6 +8,11 @@ router.get(
     UserController.getAllFormDB
 )
 
+router.get(
+    "/:id",
+    UserController.getUserById
+)
+
 router.post(
     "/",
     UserController.createUser
