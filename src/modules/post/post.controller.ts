@@ -17,11 +17,11 @@ const getAllPost = async (req: Request, res: Response) => {
         const limit = Number(req.query.limit) || 10;
         const search = (req.query.search as string) || "";
         const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : undefined
-        // const tags = req.query.tags ? (req.query.tags as string).split(",") : []
+        const tags = req.query.tags ? (req.query.tags as string).split(",") : []
 
 
         // for pagination ({ page, limit }) eta pagination er jonno deoa hoyse
-        const result = await PostService.getAllPost({ page, limit, search, isFeatured })
+        const result = await PostService.getAllPost({ page, limit, search, isFeatured, tags })
         // res.status(201).json(result);
         res.json(result);
     } catch (err) {

@@ -24,17 +24,20 @@ const getAllPost = async ({
     page = 1,
     limit = 10,
     search,
-    isFeatured
+    isFeatured,
+    tags
 }: {
     page?: number,
     limit?: number,
     search?: string,
-    isFeatured?: boolean
+    isFeatured?: boolean,
+    tags?: string[]
 }) => {
-    console.log({ page, limit });
-
     const skip = (page - 1) * limit;
+
+    console.log({ page, limit });
     console.log({ isFeatured });
+    console.log({ tags });
 
     const where: any = {
         AND: [
@@ -46,7 +49,8 @@ const getAllPost = async ({
 
             },
             typeof isFeatured === "boolean" && { isFeatured },
-            // (tags && tags.length > 0) && { tags: { hasEvery: tags } }
+            // [] --> Array er modde query kora
+            (tags && tags.length > 0) && { tags: { hasEvery: tags } }
         ].filter(Boolean)
     }
 
