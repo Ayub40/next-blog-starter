@@ -19,31 +19,63 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
     return result;
 }
 
-const getAllPost = async () => {
-    const result = await prisma.post.findMany({
-        select: {
-            id: true,
-            title: true,
-            content: true,
-            thumbnail: true,
-            isFeatured: true,
-            tags: true,
-            views: true,
-            authorId: true,
-            // author: true,
-            author: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true
-                }
+// for pagination 
+const getAllPost = async ({
+    page = 1,
+    limit = 10,
+    search,
+    isFeatured
+}: {
+    page?: number,
+    limit?: number,
+    search?: string,
+    isFeatured?: boolean
+}) => {
+    console.log({ page, limit });
+
+    const skip = (page - 1) * limit;
+    console.log({ isFeatured });
+
+    const where: any = {
+        AND: [
+            search && {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { content: { contains: search, mode: 'insensitive' } }
+                ]
+
             },
-            createdAt: true,
-            updatedAt: true
-        },
-        orderBy: {
-            createdAt: "asc"
-        }
+            typeof isFeatured === "boolean" && { isFeatured },
+            // (tags && tags.length > 0) && { tags: { hasEvery: tags } }
+        ].filter(Boolean)
+    }
+
+    const result = await prisma.post.findMany({
+        skip, take: limit, where
+
+
+        // select: {
+        //     id: true,
+        //     title: true,
+        //     content: true,
+        //     thumbnail: true,
+        //     isFeatured: true,
+        //     tags: true,
+        //     views: true,
+        //     authorId: true,
+        //     author: {
+        //         select: {
+        //             id: true,
+        //             name: true,
+        //             email: true
+        //         }
+        //     },
+        //     createdAt: true,
+        //     updatedAt: true
+        // },
+        // orderBy: {
+        //     createdAt: "asc"
+        // }
     });
     return result;
 }

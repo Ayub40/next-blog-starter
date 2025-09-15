@@ -25,7 +25,8 @@ const getAllFormDB = async () => {
             posts: true
         },
         orderBy: {
-            createdAt: "desc"
+            // createdAt: "desc"
+            createdAt: "asc"
         }
     });
     return result;
