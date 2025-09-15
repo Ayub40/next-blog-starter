@@ -79,33 +79,25 @@ const getAllPosts = async ({
     };
 }
 
+
 const getPostById = async (id: number) => {
-    const result = await prisma.post.findUnique({
-        where: {
-            id
-        },
-        select: {
-            id: true,
-            title: true,
-            content: true,
-            thumbnail: true,
-            isFeatured: true,
-            tags: true,
-            views: true,
-            authorId: true,
-            author: {
-                select: {
-                    id: true,
-                    name: true,
-                    email: true
+    return await prisma.$transaction(async (tx) => {
+        await tx.post.update({
+            where: { id },
+            data: {
+                views: {
+                    increment: 1
                 }
-            },
-            createdAt: true,
-            updatedAt: true,
-        }
+            }
+        });
+
+        return await tx.post.findUnique({
+            where: { id },
+            include: { author: true },
+        });
     })
-    return result;
-}
+};
+
 
 const updatePost = async (id: number, data: Partial<any>) => {
     return prisma.post.update({ where: { id }, data });
