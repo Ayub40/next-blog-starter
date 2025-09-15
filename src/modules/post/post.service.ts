@@ -20,7 +20,7 @@ const createPost = async (payload: Prisma.PostCreateInput): Promise<Post> => {
 }
 
 // for pagination 
-const getAllPost = async ({
+const getAllPosts = async ({
     page = 1,
     limit = 10,
     search,
@@ -35,9 +35,9 @@ const getAllPost = async ({
 }) => {
     const skip = (page - 1) * limit;
 
-    console.log({ page, limit });
-    console.log({ isFeatured });
-    console.log({ tags });
+    // console.log({ page, limit });
+    // console.log({ isFeatured });
+    // console.log({ tags });
 
     const where: any = {
         AND: [
@@ -55,33 +55,28 @@ const getAllPost = async ({
     }
 
     const result = await prisma.post.findMany({
-        skip, take: limit, where
-
-
-        // select: {
-        //     id: true,
-        //     title: true,
-        //     content: true,
-        //     thumbnail: true,
-        //     isFeatured: true,
-        //     tags: true,
-        //     views: true,
-        //     authorId: true,
-        //     author: {
-        //         select: {
-        //             id: true,
-        //             name: true,
-        //             email: true
-        //         }
-        //     },
-        //     createdAt: true,
-        //     updatedAt: true
-        // },
-        // orderBy: {
-        //     createdAt: "asc"
-        // }
+        skip,
+        take: limit,
+        where,
+        include: {
+            author: true
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
     });
-    return result;
+
+    const total = await prisma.post.count({ where })
+
+    return {
+        data: result,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit)
+        }
+    };
 }
 
 const getPostById = async (id: number) => {
@@ -122,7 +117,7 @@ const deletePost = async (id: number) => {
 
 export const PostService = {
     createPost,
-    getAllPost,
+    getAllPosts,
     getPostById,
     updatePost,
     deletePost

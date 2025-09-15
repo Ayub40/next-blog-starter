@@ -10,7 +10,7 @@ const createPost = async (req: Request, res: Response) => {
     }
 }
 
-const getAllPost = async (req: Request, res: Response) => {
+const getAllPosts = async (req: Request, res: Response) => {
     try {
         // for pagination 
         const page = Number(req.query.page) || 1;
@@ -19,16 +19,14 @@ const getAllPost = async (req: Request, res: Response) => {
         const isFeatured = req.query.isFeatured ? req.query.isFeatured === "true" : undefined
         const tags = req.query.tags ? (req.query.tags as string).split(",") : []
 
-
         // for pagination ({ page, limit }) eta pagination er jonno deoa hoyse
-        const result = await PostService.getAllPost({ page, limit, search, isFeatured, tags })
-        // res.status(201).json(result);
+        const result = await PostService.getAllPosts({ page, limit, search, isFeatured, tags });
         res.json(result);
     } catch (err) {
-        // res.status(500).send(error)
         res.status(500).json({ error: "Failed to fetch posts", details: err });
     }
-}
+};
+
 
 const getPostById = async (req: Request, res: Response) => {
     const post = await PostService.getPostById(Number(req.params.id));
@@ -48,7 +46,7 @@ const deletePost = async (req: Request, res: Response) => {
 
 export const PostController = {
     createPost,
-    getAllPost,
+    getAllPosts,
     getPostById,
     updatePost,
     deletePost
